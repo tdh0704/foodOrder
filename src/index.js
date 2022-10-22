@@ -11,7 +11,7 @@ import reducer from "./context/reducer";
 
 ReactDOM.render(
     <Router>
-         <StateProvider inittialState = {initialState} reducer = {reducer}>
+         <StateProvider initialState = {initialState} reducer = {reducer}>
              <App/>
          </StateProvider>
     </Router>
