@@ -55,7 +55,7 @@ const Header = () => {
         <div className="flex items-center gap-8">
           <motion.ul
             initial={{ opacity: 0, x: 200 }}
-            animate={{ opacity: 1, x: 200 }}
+            animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 200 }}
             className="flex items-center gap-8 "
           >
