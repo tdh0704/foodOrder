@@ -35,14 +35,14 @@ const Header = () => {
     }
   };
   const logout = () => {
-    setIsMenu(false)
-    localStorage.clear()
+    setIsMenu(false);
+    localStorage.clear();
 
     dispatch({
-      type : actionType.SET_USER,
+      type: actionType.SET_USER,
       user: null,
     });
-  }
+  };
   return (
     <header className="fixed z-50 w-screen p-3 px-4 md:p-6 md:px-16">
       {/* {desktop & tablet} */}
@@ -125,7 +125,7 @@ const Header = () => {
                 <p
                   className="px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100
               transition-all duration-100 ease-in-out text-base"
-              onClick = {logout}
+                  onClick={logout}
                 >
                   Logout <MdLogout />
                 </p>
@@ -137,10 +137,21 @@ const Header = () => {
 
       {/* mobile */}
       <div className="flex items-center justify-between md:hidden w-full h-full">
+       
+
+        <div className="relative flex items-center justify-center">
+          <MdShoppingBasket className="text-textColor text-2xl  cursor-pointer" />
+          <div className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-cartNumBg flex items-center justify-center">
+            <p className="text-xs text-while font-semibold">2</p>
+          </div>
+        </div>
+
+
         <Link to={"/"} className="flex items-center gap-2">
           <img src={Logo} className="w-8 object-cover" alt="logo" />
           <p className="text-headingColor text-x1 font-bold">City</p>
         </Link>
+
         <div className="relative">
           <motion.img
             whileTap={{ scale: 0.6 }}
@@ -204,7 +215,7 @@ const Header = () => {
                 bg-gray-200
                 gap-3 cursor-pointer hover:bg-gray-300
               transition-all duration-100 ease-in-out text-base"
-              onClick = {logout}
+                onClick={logout}
               >
                 Logout <MdLogout />
               </p>
