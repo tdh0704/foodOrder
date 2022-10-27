@@ -6,13 +6,22 @@ import {
   MdCloudUpload,
   MdDelete,
   MdFoodBank,
-  MdAttachMoney
+  MdAttachMoney,
 } from "react-icons/md";
 import { categories } from "../untils/data";
 import Loader from "./Loader";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import {
+  deleteObject,
+  getDownloadURL,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
 import { storage } from "../firebase.config";
 import { onSnapshot } from "firebase/firestore";
+import { saveItem } from "../untils/firebaseFunctions";
+import { getAllFoodItems } from "../untils/firebaseFunctions";
+import { actionType } from "../context/reducer";
+import { useStateValue } from "../context/StateProvider";
 
 const CreateContainer = () => {
   const [title, setTitle] = useState("");
@@ -24,44 +33,123 @@ const CreateContainer = () => {
   const [alertStatus, setAlertStatus] = useState("danger");
   const [msg, setMsg] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [{foodItems}, dispatch] = useStateValue();
 
   const uploadImage = (e) => {
     setIsLoading(true);
     const imageFile = e.target.files[0];
-    const storageRef = ref(storage, `Images/${Date.now()}-${imageFile.name}`)
+    const storageRef = ref(storage, `Images/${Date.now()}-${imageFile.name}`);
     const uploadTask = uploadBytesResumable(storageRef, imageFile);
 
-    uploadTask.on('state_changed', (snapshot) => {
-      const uploadProgress = (snapshot.bytesTransferred / snapshot.totalBytes)*100;
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const uploadProgress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      },
+      (erro) => {
+        console.log(erro);
+        setFields(true);
+        setMsg("Lỗi tải file lên!");
+        setAlertStatus("danger");
+        setTimeout(() => {
+          setFields(false);
+          setIsLoading(false);
+        }, 4000);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          setImageAsset(downloadURL);
+          setIsLoading(false);
+          setFields(true);
+          setMsg("Ảnh đã tải xong!");
+          setAlertStatus("success");
+          setTimeout(() => {
+            
+              setFields(false);
+        
+          }, 4000);
+        });
+      }
+    );
+  };
 
-    }, (erro) => {
-      console.log(erro);
+  const deleteImage = () => {
+    setIsLoading(true);
+    const deleteRef = ref(storage, imageAsset);
+    deleteObject(deleteRef).then(() => {
+      setImageAsset(null);
+      setIsLoading(false);
+      setFields(true);
+      setMsg("Xoá ảnh thành công");
+      setAlertStatus("success");
+      setTimeout(() => {
+        setFields(false);
+      }, 4000);
+    });
+  };
+
+  const saveDetails = () => {
+    setIsLoading(true);
+    try {
+      if (!title || !calories || !imageAsset || !price || !category) {
+        setFields(true);
+        setMsg("Dữ liệu không được để trống");
+        setAlertStatus("danger");
+        setTimeout(() => {
+          setFields(false);
+          setIsLoading(false);
+        }, 4000);
+      }else {
+        const data = {
+          id: `${Date.now()}`,
+          title : title,
+          imageURL : imageAsset,
+          category : category,
+          calories: categories,
+          qty : 1,
+          price : price
+        };
+        saveItem(data);
+        setIsLoading(false);
+        setFields(true);
+        setMsg("Cập nhật dữ liệu thành công");
+        setAlertStatus("success");
+        setTimeout(() => {
+          setFields(false);
+          
+        }, 4000);
+        clearData();
+      }
+    } catch (error) {
+      console.log(error);
       setFields(true);
       setMsg("Lỗi tải file lên!");
-      setAlertStatus('danger');
+      setAlertStatus("danger");
       setTimeout(() => {
         setFields(false);
         setIsLoading(false);
       }, 4000);
-    }, () => {
-      getDownloadURL(uploadTask.snapshot.ref).then(getDownloadURL => {
-        setImageAsset(getDownloadURL);
-        setIsLoading(false);
-        setFields(true);
-        setMsg("Ảnh đã tải xong!");
-        setTimeout(() => {
-          setFields(() => {
-            setFields(false);
-          });
-        }, 4000);
-
-      });
-    })
+    }
+    fetchData();
   };
 
-  const deleteImage = () => {};
+  const clearData = () => {
+    setTitle("");
+    setImageAsset(null);
+    setCalories("");
+    setPrice("");
+    setCategory("Select Category");
+  }
 
-  const saveDetails = () => {};
+  const fetchData = async () => {
+    await getAllFoodItems().then(data => {
+      dispatch({
+        type: actionType.SET_FOOD_ITEMS,
+        foodItems : data
+      })
+    });
+  };
   return (
     <div className="w-full min-h-screen h-auto flex items-center justify-center">
       <div className="w-[90%] md:w[75%] border border-gray-300 rounded-lg p-4 flex flex-col items-center justify-center gap-4">
@@ -100,7 +188,7 @@ const CreateContainer = () => {
         </div>
         <div className=" w-full ">
           <select
-            onChange={(e) => setCalories(e.target.value)}
+            onChange={(e) => setCategory(e.target.value)}
             className="outline-none w-full text-base border-b-2 border-gray-200 p-2 rounded-md cursor-pointer"
           >
             <option value="other" className="bg-white">
@@ -191,14 +279,14 @@ const CreateContainer = () => {
             <input
               type="text"
               required
-              value = {calories}
-              onChange = {(e) => setCalories(e.target.value)}
+              value={calories}
+              onChange={(e) => setCalories(e.target.value)}
               placeholder="calories"
               className="w-full h-full text-lg bg-transparent 
              outline-none border-none capitalize placeholder:text-gray-500 text-textColor"
             />
           </div>
-{/*  */}
+          {/*  */}
           <div
             className="w-full py-2 border-b border-fray-300 
            flex items-center gap-2"
@@ -207,8 +295,8 @@ const CreateContainer = () => {
             <input
               type="text"
               required
-              value = {price}
-              onChange = {(e) => setPrice(e.target.value)}
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
               placeholder="price"
               className="w-full h-full text-lg bg-transparent 
              outline-none border-none capitalize placeholder:text-gray-500 text-textColor"
@@ -217,10 +305,13 @@ const CreateContainer = () => {
         </div>
 
         <div className="flex items-center w-full">
-          <button type = "button" 
-          className="ml-0 md:ml-auto w-full md:w-auto 
+          <button
+            type="button"
+            className="ml-0 md:ml-auto w-full md:w-auto 
           border-none outline-none bg-emerald-500 px-12 py-2 rounded-lg 
-          text-lg text-white font-semibold" onClick={saveDetails}>
+          text-lg text-white font-semibold"
+            onClick={saveDetails}
+          >
             save
           </button>
         </div>
