@@ -50,6 +50,8 @@ module.exports = {
         primary: "#f5f3f3",
         cardOverlay: 'rgba(256, 256, 256, 0.4)',
         lightTextGray: "#9ca0ab",
+        card: 'rgba(256, 256, 256, 0.8)',
+
 
       }
     },
