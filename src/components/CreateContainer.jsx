@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import {
-  Md,
   MdFastfood,
   MdCloudUpload,
   MdDelete,
@@ -19,7 +18,7 @@ import {
 import { storage } from "../firebase.config";
 import { onSnapshot } from "firebase/firestore";
 import { saveItem } from "../untils/firebaseFunctions";
-import { getAllFoodItems } from "../untils/firebaseFunctions";
+import { getAllFoodItems} from "../untils/firebaseFunctions";
 import { actionType } from "../context/reducer";
 import { useStateValue } from "../context/StateProvider";
 
@@ -33,6 +32,7 @@ const CreateContainer = () => {
   const [alertStatus, setAlertStatus] = useState("danger");
   const [msg, setMsg] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+
   const [{foodItems}, dispatch] = useStateValue();
 
   const uploadImage = (e) => {
@@ -106,7 +106,7 @@ const CreateContainer = () => {
           title : title,
           imageURL : imageAsset,
           category : category,
-          calories: categories,
+          calories: calories,
           qty : 1,
           price : price
         };
