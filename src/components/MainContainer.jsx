@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import HomeContainer from "./HomeContainer";
 import { motion } from "framer-motion";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
-import { RowContainer } from ".";
+import { CartContaier, RowContainer } from ".";
 import { useStateValue } from "../context/StateProvider";
 import MenuContainer from "./MenuContainer";
 
@@ -56,7 +56,7 @@ const MainContainer = () => {
 
         <RowContainer
         scrollValue = {scrollValue}
-          flag={false}
+          flag={true}
           data={foodItems?.filter((n) => n.category === "Fruits")}
         />
       </section>
@@ -64,6 +64,9 @@ const MainContainer = () => {
       <section className="w-fu my-6">
 
         <MenuContainer/>
+
+
+        <CartContaier/>
       </section>
     </div>
   );

@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoFastFood } from "react-icons/io5";
 import { categories } from "../untils/data";
+import { motion } from "framer-motion";
+import RowContainer from "./RowContainer";
+import { useStateValue } from "../context/StateProvider";
 
 const MenuContainer = () => {
-  const [filter, setFilter] = useState("chicken");
+  const [filter, setFilter] = useState("Fruits");
+  const [{ foodItems }, dispatch] = useStateValue();
+
   return (
     <section className="w-full my-6 " id="menu">
       <div className="w-full flex flex-col items-center justify-center">
@@ -22,29 +27,52 @@ const MenuContainer = () => {
         >
           {categories &&
             categories.map((category) => (
-              <div
+              <motion.div
+                whileTap={{ scale: 0.75 }}
                 key={category.id}
-                className= {`group ${filter === category.urlParamName ? 
-                    'bg-cartNumBg' : 'bg-card' } w-24 min-w-[94px] h-28 cursor-pointer 
+                className={`group ${
+                  filter === category.urlParamName ? "bg-cartNumBg" : "bg-card"
+                } w-24 min-w-[94px] h-28 cursor-pointer 
                 rounded-lg drop-shadow-xl
                 flex flex-col fap-3  items-center justify-center
-                 hover:bg-cartNumBg duration-150 transition-all ease-in-out`}
-                  >
+                 hover:bg-cartNumBg `}
+                onClick={() => setFilter(category.urlParamName)}
+              >
                 <div
-                  className = {`w-10 h-10 rounded-full ${filter === category.urlParamName ?
-                    'bg-card' : 'bg-cartNumBg' } group-hover:bg-card flex  
+                  className={`w-10 h-10 rounded-full shadow-lg
+                  ${
+                    filter === category.urlParamName
+                      ? "bg-white"
+                      : "bg-cartNumBg"
+                  } group-hover:bg-white flex  
                   items-center justify-center`}
                 >
                   <IoFastFood
-                    className="text-card group-hover:text-textColor text-lg 
-                                "
+                    className={`${
+                      filter === category.urlParamName
+                        ? "tetx-textColor"
+                        : "text-white"
+                    } group-hover:text-textColor text-lg `}
                   />
                 </div>
-                <p className="text-sm text-textColor group-hover:text-white">
+                <p
+                  className={`text-sm ${
+                    filter === category.urlParamName
+                      ? "text-white"
+                      : "text-textColor"
+                  } group-hover:text-white`}
+                >
                   {category.name}
                 </p>
-              </div>
+              </motion.div>
             ))}
+        </div>
+
+        <div className=" w-full ">
+          <RowContainer
+            flag={false}
+            data={foodItems?.filter((n) => n.category == filter)}
+          />
         </div>
       </div>
     </section>
