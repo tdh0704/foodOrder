@@ -7,12 +7,12 @@ import { useStateValue } from "../context/StateProvider";
 import MenuContainer from "./MenuContainer";
 
 const MainContainer = () => {
-  const [{ foodItems }, dispatch] = useStateValue();
+  const [{ foodItems, cartShow }, dispatch] = useStateValue();
 
   const [scrollValue, setScrollValue] = useState(0);
   useEffect(() => {
 
-  }, {scrollValue});
+  }, {scrollValue, cartShow});
   const scroll = (scrollOffset) => {
     setScrollValue();
   }
@@ -66,7 +66,7 @@ const MainContainer = () => {
         <MenuContainer/>
 
 
-        <CartContaier/>
+        { cartShow && <CartContaier/>  }
       </section>
     </div>
   );
