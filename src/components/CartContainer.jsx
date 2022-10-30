@@ -1,19 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import { motion } from "framer-motion";
 import { RiRefreshFill } from "react-icons/ri";
 import { useStateValue } from "../context/StateProvider";
 import { actionType } from "../context/reducer";
-import EmptyCart from "../img/emptyCart.svg"
+import EmptyCart from "../img/emptyCart.svg";
 import CartItems from "./CartItems";
 const CartContainer = () => {
-  const [{ user, cartShow, cartItems}, dispatch] = useStateValue();
-
+  const [{ user, cartShow, cartItems }, dispatch] = useStateValue();
+  const [flag, setFlag] = useState(1);
+  const [tot, setTot] = useState(0);
   const showCart = () => {
     dispatch({
       type: actionType.SET_CART_SHOW,
       cartShow: !cartShow,
     });
+  };
+
+  useEffect(() => {
+    let totalPrice = cartItems.reduce((accumulator, item) => {
+      return accumulator + item.qty * item.price;
+    }, 0);
+    setTot(totalPrice);
+  }, [tot, flag]);
+  const clearCart = () => {
+    dispatch({
+      type: actionType.SET_CARTITEMS,
+      cartItems: [],
+    });
+    localStorage.setItem("cartItems", JSON.stringify([]));
   };
   return (
     <motion.div
@@ -40,14 +55,14 @@ const CartContainer = () => {
           className="flex items-center gap-2 p-1 px-2 my-2 bg-gray-100 rounded-md 
             hover:shadow-md
             cursor-pointer text-textColor text-base"
+          onClick={clearCart}
         >
           Clear <RiRefreshFill />
         </motion.p>
       </div>
       {/* bottom section */}
-      {
-        cartItems && cartItems.length > 0 ? (
-          <div
+      {cartItems && cartItems.length > 0 ? (
+        <div
           className="w-full h-full bg-cartBg rounded-t-[2rem] flex 
         flex-col"
         >
@@ -58,65 +73,72 @@ const CartContainer = () => {
           >
             {/* cart item */}
             {cartItems &&
-              cartItems.map((item) => (
-                <CartItems  key={item.id} item = {item}/>
-              ))}
+              cartItems.length > 0 &&
+              cartItems.map((item) => 
+              <CartItems
+               key={item.id} 
+               item={item}
+               setFlag = {setFlag}
+               flag = {flag} />)}
           </div>
-  
+
           {/* cart total section */}
           <div
             className="w-full flex-1 bg-cartTotal rounded=t-[2rem] 
           flex flex-col items-center justify-evenly px-8 py-2"
           >
             <div className="w-full flex items-center justify-between">
+              <p className="text-gray-400 text-lg">Sub Total</p>
+              <p className="text-gray-400 text-lg">$ {tot}</p>
+            </div>
+            <div className="w-full flex items-center justify-between">
               <p className="text-gray-400 text-lg ">Delivery</p>
               <p className="text-gray-400 text-lg ">$ 2.5</p>
             </div>
-  
+
             <div className="w-full border-b border-gray-600 my-2"></div>
-  
+
             <div className="w-full flex items-center justify-between">
               <p className="text-gray-200 text-xl font-semibold">Total</p>
-              <p className="text-gray-200 text-xl font-semibold">$11.5</p>
+              <p className="text-gray-200 text-xl font-semibold">$ {tot + 2.5}</p>
             </div>
-  
-                {user ?  (
-                   <motion.button
-                   whileTap={{ scale: 0.8 }}
-                   type="button"
-                   className="w-ful p-2 rounded-full bg-gradient-to-tr 
+
+            {user ? (
+              <motion.button
+                whileTap={{ scale: 0.8 }}
+                type="button"
+                className="w-ful p-2 rounded-full bg-gradient-to-tr 
                     from-orange-400 
                  to-orange-600 text-gray-50 
                   text-lg my-2 hover:shadow-lg"
-                 >
-                   Check Out
-                 </motion.button>
-                ) :  (
-                  <motion.button
-                  whileTap={{ scale: 0.8 }}
-                  type="button"
-                  className="w-ful p-2 rounded-full bg-gradient-to-tr 
+              >
+                Check Out
+              </motion.button>
+            ) : (
+              <motion.button
+                whileTap={{ scale: 0.8 }}
+                type="button"
+                className="w-ful p-2 rounded-full bg-gradient-to-tr 
                    from-orange-400 
                 to-orange-600 text-gray-50 
                  text-lg my-2 hover:shadow-lg"
-                >
-                  Login to check out
-                </motion.button>
-               )}
+              >
+                Login to check out
+              </motion.button>
+            )}
           </div>
         </div>
-        ) : (
-          <div className="w-full h-full flex flex-col items-center 
-           justify-center gap-6">
-             <img src={EmptyCart} alt="" className="w-300"/>
-             <p className="text-xl text-textColor font-semibold">
-
-               Thêm sản phẩm vào giỏ hàng
-             </p>
-           </div>
-        )
-      }
-     
+      ) : (
+        <div
+          className="w-full h-full flex flex-col items-center 
+           justify-center gap-6"
+        >
+          <img src={EmptyCart} alt="" className="w-300" />
+          <p className="text-xl text-textColor font-semibold">
+            Thêm sản phẩm vào giỏ hàng
+          </p>
+        </div>
+      )}
     </motion.div>
   );
 };
