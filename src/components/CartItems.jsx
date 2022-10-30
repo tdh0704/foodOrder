@@ -2,10 +2,21 @@ import React, { useState } from 'react'
 import { BiMinus, BiPlus } from "react-icons/bi";
 import { motion } from 'framer-motion';
 import { useStateValue } from '../context/StateProvider';
+import { actionType } from '../context/reducer';
 const CartItems = ({item}) => {
 
     const [qty, setQty] = useState(1);
+    const [items, setItems] = useState([]);
     const [{cartItems}, dispatch] = useStateValue();
+
+    const cartDispatch = () => {
+        localStorage.setItem("cartItem", JSON.stringify(items));
+        dispatch({
+            type: actionType.SET_CART,
+            cartItem: items,
+        });
+    };
+
     const updateQty = (action, id) => {
         if (action == "add"){
             setQty(qty+1);
