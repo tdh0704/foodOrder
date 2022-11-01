@@ -6,6 +6,7 @@ import { useStateValue } from "../context/StateProvider";
 import { actionType } from "../context/reducer";
 import EmptyCart from "../img/emptyCart.svg";
 import CartItems from "./CartItems";
+import { Link } from "react-router-dom";
 
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { app } from "../firebase.config";
@@ -122,6 +123,7 @@ const CartContainer = () => {
             </div>
 
             {user ? (
+             <Link to = "/order">
               <motion.button
                 whileTap={{ scale: 0.8 }}
                 type="button"
@@ -132,8 +134,10 @@ const CartContainer = () => {
               >
                 Thanh toán
               </motion.button>
+             </Link>
             ) : (
-              <motion.button
+              
+                <motion.button
                 whileTap={{ scale: 0.8 }}
                 type="button"
                 className="w-ful p-2 rounded-full bg-gradient-to-tr 
@@ -144,6 +148,7 @@ const CartContainer = () => {
               >
                 Đăng nhập để đặt hàng
               </motion.button>
+             
             )}
           </div>
         </div>

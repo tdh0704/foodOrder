@@ -5,6 +5,8 @@ import { Route, Routes } from "react-router-dom";
 import { useStateValue } from "./context/StateProvider";
 import { getAllFoodItems } from "./untils/firebaseFunctions";
 import { actionType } from "./context/reducer";
+import OrderForm from "./components/OrderForm";
+import Pay from "./components/Pay";
 
 
 const App = () => {
@@ -35,6 +37,8 @@ const App = () => {
             <Route path="/*" element={<MainContainer />} />
             <Route path="/createItem" element={<CreateContainer />} />
             <Route path="/menu" element = {<MenuContainer/>}/>
+            <Route path="/order" element = {<OrderForm/>}/>
+            <Route path="/pay" element = {<Pay/>}/>
             </Routes>
         </main>
        
