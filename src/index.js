@@ -10,8 +10,7 @@ import { initialState } from "./context/initalState";
 import reducer from "./context/reducer";
 
 ReactDOM.render(
-    <Router>
-        
+    <Router>       
          <StateProvider initialState = {initialState} reducer = {reducer}>
              <App/>
          </StateProvider>
