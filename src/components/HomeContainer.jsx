@@ -43,7 +43,7 @@ const HomeContainer = () => {
           className="text-base text-textColor text-center 
         md:text-left md:w-[80%]"
         >
-          Grab Food cũng là một trong các dịch vụ giao hàng đồ ăn cho quán take
+          Delivery Food cũng là một trong các dịch vụ giao hàng đồ ăn cho quán take
           away được nhiều chủ kinh doanh lựa chọn. Nhờ ưu điểm nhanh chóng, phục
           vụ tốt sẽ giúp nhà hàng quán ăn của bạn nâng cao hình ảnh thương hiệu.
         </p>

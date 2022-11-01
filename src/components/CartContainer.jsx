@@ -6,6 +6,9 @@ import { useStateValue } from "../context/StateProvider";
 import { actionType } from "../context/reducer";
 import EmptyCart from "../img/emptyCart.svg";
 import CartItems from "./CartItems";
+
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { app } from "../firebase.config";
 const CartContainer = () => {
   const [{ user, cartShow, cartItems }, dispatch] = useStateValue();
   const [flag, setFlag] = useState(1);
@@ -29,6 +32,21 @@ const CartContainer = () => {
       cartItems: [],
     });
     localStorage.setItem("cartItems", JSON.stringify([]));
+  };
+
+  const firebaseAuth = getAuth(app);
+  const provider = new GoogleAuthProvider();
+  const login = async () => {
+    if (!user) {
+      const {
+        user: { refreshToken, providerData },
+      } = await signInWithPopup(firebaseAuth, provider);
+      dispatch({
+        type: actionType.SET_USER,
+        user: providerData[0],
+      });
+      localStorage.setItem("user", JSON.stringify(providerData[0]));
+    } 
   };
   return (
     <motion.div
@@ -112,7 +130,7 @@ const CartContainer = () => {
                  to-orange-600 text-gray-50 
                   text-lg my-2 hover:shadow-lg"
               >
-                Check Out
+                Thanh toán
               </motion.button>
             ) : (
               <motion.button
@@ -122,8 +140,9 @@ const CartContainer = () => {
                    from-orange-400 
                 to-orange-600 text-gray-50 
                  text-lg my-2 hover:shadow-lg"
+                 onClick={login}
               >
-                Login to check out
+                Đăng nhập để đặt hàng
               </motion.button>
             )}
           </div>
