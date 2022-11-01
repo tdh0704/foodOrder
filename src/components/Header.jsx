@@ -11,6 +11,16 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useStateValue } from "../context/StateProvider";
 import { actionType } from "../context/reducer";
+import { getExtraUserInfo } from "../untils/firebaseFunctions";
+
+const RoleComponent = (props) => {
+  const { children, role = "" } = props;
+  const [{ user }] = useStateValue();
+
+  if (user?.extraUserInfo?.role !== role) return null;
+
+  return <>{children}</>;
+};
 
 const Header = () => {
   const firebaseAuth = getAuth(app);
@@ -22,14 +32,20 @@ const Header = () => {
 
   const login = async () => {
     if (!user) {
+      const res = await signInWithPopup(firebaseAuth, provider);
+
       const {
-        user: { refreshToken, providerData },
-      } = await signInWithPopup(firebaseAuth, provider);
+        user: { refreshToken, providerData, reloadUserInfo },
+      } = res;
+      const extraUserInfo = await getExtraUserInfo(reloadUserInfo.localId);
+      const userData = { ...providerData[0], extraUserInfo };
+
+      console.log("userData", userData);
       dispatch({
         type: actionType.SET_USER,
-        user: providerData[0],
+        user: userData,
       });
-      localStorage.setItem("user", JSON.stringify(providerData[0]));
+      localStorage.setItem("user", JSON.stringify(userData));
     } else {
       setIsMenu(!isMenu);
     }
@@ -73,13 +89,15 @@ const Header = () => {
             >
               Home
             </li>
-            <li
-              className="text-base text-textColor hover:text-headingColor duration-100
+            <Link to="/menu">
+              <li
+                className="text-base text-textColor hover:text-headingColor duration-100
           transition-all ease-in-out
            cursor-pointer "
-            >
-              Menu
-            </li>
+              >
+                Menu
+              </li>
+            </Link>
             <li
               className="text-base text-textColor hover:text-headingColor duration-100
           transition-all ease-in-out
@@ -87,13 +105,15 @@ const Header = () => {
             >
               About Us
             </li>
-            <li
-              className="text-base text-textColor hover:text-headingColor duration-100
+            <RoleComponent role="admin">
+              <li
+                className="text-base text-textColor hover:text-headingColor duration-100
           transition-all ease-in-out
            cursor-pointer "
-            >
-              Service
-            </li>
+              >
+                Service
+              </li>
+            </RoleComponent>
           </motion.ul>
 
           <div
@@ -110,7 +130,7 @@ const Header = () => {
             )}
           </div>
 
-          <div className="relative">
+          <div className="relative"> {console.log(user)}
             <motion.img
               whileTap={{ scale: 0.6 }}
               src={user ? user.photoURL : Avatar}
@@ -206,7 +226,7 @@ const Header = () => {
                 >
                   Home
                 </li>
-                <Link to = {"/menu"}>
+                <Link to={"/menu"}>
                   <li
                     className="text-base text-textColor hover:text-headingColor duration-100
           transition-all ease-in-out
