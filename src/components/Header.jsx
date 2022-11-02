@@ -105,7 +105,7 @@ const Header = () => {
             >
               About Us
             </li>
-            <RoleComponent role="admin">
+           
               <li
                 className="text-base text-textColor hover:text-headingColor duration-100
           transition-all ease-in-out
@@ -113,7 +113,7 @@ const Header = () => {
               >
                 Service
               </li>
-            </RoleComponent>
+           
           </motion.ul>
 
           <div
@@ -131,12 +131,13 @@ const Header = () => {
           </div>
 
           <div className="relative"> {console.log(user)}
-            <motion.img
+            <img
               whileTap={{ scale: 0.6 }}
               src={user ? user.photoURL : Avatar}
               className="w-10 min-w-[40px] h-10 min-h-[40px] drop-shadow-xl cursor-pointer rounded-full"
               alt="userprofile"
               onClick={login}
+              referrerpolicy="no-referrer"
             />
             {isMenu && (
               <motion.div
@@ -146,7 +147,8 @@ const Header = () => {
                 className="w-40 bg-gray-50 shadow-xl rounded-lg flex flex-col absolute
           top-12 right-0 px-4 py-2"
               >
-                {user && user.email === "haiek55tc1@gmail.com" && (
+                <RoleComponent role = "admin">
+                {user && user.email&& (
                   <Link to={"/createItem"}>
                     <p
                       className="px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100
@@ -157,6 +159,8 @@ const Header = () => {
                     </p>
                   </Link>
                 )}
+                </RoleComponent>
+                
                 <p
                   className="px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100
               transition-all duration-100 ease-in-out text-base"
@@ -207,7 +211,8 @@ const Header = () => {
               className="w-40 bg-gray-50 shadow-xl rounded-lg flex flex-col absolute
           top-12 right-0 px-4 py-2"
             >
-              {user && user.email === "haiek55tc1@gmail.com" && (
+              <RoleComponent role = "admin">
+              {user && user.email && (
                 <Link to={"/createItem"}>
                   <p
                     className="px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100
@@ -217,6 +222,8 @@ const Header = () => {
                   </p>
                 </Link>
               )}
+              </RoleComponent>
+             
 
               <ul className="flex flex-col px-4 py-2">
                 <li
