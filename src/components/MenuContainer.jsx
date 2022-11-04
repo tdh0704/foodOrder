@@ -28,7 +28,7 @@ const MenuContainer = () => {
           {categories &&
             categories.map((category) => (
               <motion.div
-                whileTap={{ scale: 0.75 }}
+                whiletap={{ scale: 0.75 }}
                 key={category.id}
                 className={`group ${
                   filter === category.urlParamName ? "bg-cartNumBg" : "bg-card"

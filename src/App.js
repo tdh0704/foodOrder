@@ -8,7 +8,6 @@ import { actionType } from "./context/reducer";
 import OrderForm from "./components/OrderForm";
 import Pay from "./components/Pay";
 
-
 const App = () => {
   const [{foodItems}, dispatch] = useStateValue();
 

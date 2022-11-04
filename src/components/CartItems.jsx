@@ -71,7 +71,7 @@ items-center gap-2 "
    cursor-pointer"
       >
         <motion.div
-          whileTap={{ scale: 0.75 }}
+          whiletap={{ scale: 0.75 }}
           onClick={() => updateQty("remove", item?.id)}
         >
           <BiMinus className="text-gray-50" />
@@ -85,7 +85,7 @@ items-center gap-2 "
         </p>
 
         <motion.div
-          whileTap={{ scale: 0.75 }}
+          whiletap={{ scale: 0.75 }}
           onClick={() => updateQty("add", item?.id)}
         >
           <BiPlus className="text-gray-50" />

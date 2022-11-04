@@ -61,7 +61,7 @@ const CartContainer = () => {
         className="w-full flex items-center justify-between 
         p-4 cursor-pointer"
       >
-        <motion.div whileTap={{ scale: 0.75 }} onClick={showCart}>
+        <motion.div whiletap={{ scale: 0.75 }} onClick={showCart}>
           <MdOutlineKeyboardBackspace
             className="text-textColor text-3xl 
             "
@@ -70,7 +70,7 @@ const CartContainer = () => {
         <p className="text-textColor text-lg font-semibold">Cart</p>
 
         <motion.p
-          whileTap={{ scale: 0.75 }}
+          whiletap={{ scale: 0.75 }}
           className="flex items-center gap-2 p-1 px-2 my-2 bg-gray-100 rounded-md 
             hover:shadow-md
             cursor-pointer text-textColor text-base"
@@ -125,7 +125,7 @@ const CartContainer = () => {
             {user ? (
              <Link to = "/order">
               <motion.button
-                whileTap={{ scale: 0.8 }}
+                whiletap={{ scale: 0.8 }}
                 type="button"
                 className="w-ful p-2 rounded-full bg-gradient-to-tr 
                     from-orange-400 
@@ -138,7 +138,7 @@ const CartContainer = () => {
             ) : (
               
                 <motion.button
-                whileTap={{ scale: 0.8 }}
+                whiletap={{ scale: 0.8 }}
                 type="button"
                 className="w-ful p-2 rounded-full bg-gradient-to-tr 
                    from-orange-400 

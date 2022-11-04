@@ -132,12 +132,12 @@ const Header = () => {
 
           <div className="relative"> {console.log(user)}
             <img
-              whileTap={{ scale: 0.6 }}
+              whiletap={{ scale: 0.6 }}
               src={user ? user.photoURL : Avatar}
               className="w-10 min-w-[40px] h-10 min-h-[40px] drop-shadow-xl cursor-pointer rounded-full"
               alt="userprofile"
               onClick={login}
-              referrerpolicy="no-referrer"
+              referrerPolicy="no-referrer"
             />
             {isMenu && (
               <motion.div
@@ -197,7 +197,7 @@ const Header = () => {
 
         <div className="relative">
           <motion.img
-            whileTap={{ scale: 0.6 }}
+            whiletap={{ scale: 0.6 }}
             src={user ? user.photoURL : Avatar}
             className="w-10 min-w-[40px] h-10 min-h-[40px] drop-shadow-xl cursor-pointer rounded-full"
             alt="userprofile"
