@@ -4,9 +4,10 @@ import { saveOrder } from "../untils/firebaseFunctions";
 import { getAllOrders} from "../untils/firebaseFunctions";
 import { actionType } from "../context/reducer";
 import { useStateValue } from "../context/StateProvider";
+import { motion } from "framer-motion";
 // const [{orders}, dispatch] = useStateValue();
 const OrderForm = () => {
-  const [firstName, setFistName] = useState("");
+ const [firstName, setFistName] = useState("");
   const [lastName, setLastName] = useState("");
   const [address, setAddress] = useState("");
   const [number, setNumber] = useState("");
@@ -15,19 +16,23 @@ const OrderForm = () => {
   const [alertStatus, setAlertStatus] = useState("danger");
   const [msg, setMsg] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [click, setClick] = useState();
+ 
+
 
   const saveDetails = () => {
-    setIsLoading(true);
     try {
-      if (!firstName || !lastName || !address || !number) {
+      if (!firstName|| !lastName || !address || !number || number.length < 10) {
         setFields(true);
-        setMsg("Dữ liệu không được để trống");
+        setMsg("Dữ liệu không được để trống, hoặc số điện thoại chưa đúng");
         setAlertStatus("danger");
+        setClick(false);
         setTimeout(() => {
           setFields(false);
           setIsLoading(false);
         }, 4000);
       }else {
+        setClick(true);
         const data = {
           id: `${Date.now()}`,
           name: `${firstName} ${lastName}`,
@@ -37,13 +42,13 @@ const OrderForm = () => {
         saveOrder(data);
         setIsLoading(false);
         setFields(true);
-        setMsg("Cập nhật dữ liệu thành công");
+        setMsg("Đặt hàng thành công");
         setAlertStatus("success");
         setTimeout(() => {
           setFields(false);
           
         }, 4000);
-        
+        clearData();
       }
     } catch (error) {
       console.log(error);
@@ -58,41 +63,36 @@ const OrderForm = () => {
     // fetchData();
   };
 
+  const clearData = () => {
+   setFistName("");
+    setLastName("");
+    setAddress("");
+    setNumber("");
+  }
+
   
-
-  // const fetchData = async () => {
-  //   await getAllOrders().then((data) => {
-  //     dispatch({
-  //       type: actionType.SET_ORDER,
-  //       orders : data
-  //     })
-  //   });
-  // };
-
-  // const Input = document.querySelector("input");
-  // const phoneInput = document.querySelector("phone__input");
-
-  // const submitBtn = document.querySelector(".button");
-  // submitBtn?.addEventListener("click", () => {
-  //   console.log(Input?.value.length);
-  //   if (Input?.value?.length <= 0 || phoneInput?.value?.length < 10) {
-  //     alert("Thông tin bạn điền chưa dủ hoặc số điện thoại không đúng");
-  //   } else {
-  //     const data = {
-  //       id: `${Date.now()}`,
-  //       name:  `${firstName} ${lastName}`,
-  //       address: address,
-  //       phone: number,
-  //     };
-  //     saveOrder(data);
-  //   }
-  // });
 
   return (
     <div className="flex flex-col items-center justify-center bg-white">
       <h2 className="text-orange-500 font-semibold text-5xl py-16">
         Food Oder Form
       </h2>
+      {fields && (
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className={`w-full p-2 rounded-lg text-center 
+            text-lg font-semibold
+             ${
+               alertStatus === "danger"
+                 ? "bg-red-400 text-red-800"
+                 : "bg-emerald-400 text-emerald-800"
+             }`}
+          >
+            {msg}
+          </motion.p>
+        )}
       <form className="w-[1200px] flex flex-col " action="">
         <p className="text-xl font-medium my-3">Name</p>
         <div className="w-[50%]">
@@ -132,11 +132,22 @@ const OrderForm = () => {
           placeholder="Phone Number"
         />
 
-        <Link to="/pay">
-          <button onClick={saveDetails} className="button text-orange-500 font-bold text-xl border-2 px-5 mt-4 hover:bg-orange-500 hover:text-white rounded-md mb-12">
-            Pay
+        
+         <div className="flex">
+         <button onClick={saveDetails} className="button text-orange-500 font-bold text-xl border-2 px-5 mt-4 hover:bg-orange-500 hover:text-white rounded-md mb-12">
+            Submit
           </button>
-        </Link>
+        
+        {
+          click && (
+            <Link to = "/pay">
+            <button onClick={saveDetails} className=" ml-16 button text-orange-500 font-bold text-xl border-2 px-5 mt-4 hover:bg-orange-500 hover:text-white rounded-md mb-12">
+              Xác nhận thanh toán
+            </button>
+          </Link>
+          )
+        }
+         </div>
       </form>
     </div>
   );

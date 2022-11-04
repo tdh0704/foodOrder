@@ -82,13 +82,15 @@ const Header = () => {
             exit={{ opacity: 0, x: 200 }}
             className="flex items-center gap-8 "
           >
-            <li
-              className="text-base text-textColor hover:text-headingColor duration-100
+            <Link to = "/">
+              <li
+                className="text-base text-textColor hover:text-headingColor duration-100
           transition-all ease-in-out
            cursor-pointer "
-            >
-              Home
-            </li>
+              >
+                Home
+              </li>
+            </Link>
             <Link to="/menu">
               <li
                 className="text-base text-textColor hover:text-headingColor duration-100
@@ -105,15 +107,14 @@ const Header = () => {
             >
               About Us
             </li>
-           
-              <li
-                className="text-base text-textColor hover:text-headingColor duration-100
+
+            <li
+              className="text-base text-textColor hover:text-headingColor duration-100
           transition-all ease-in-out
            cursor-pointer "
-              >
-                Service
-              </li>
-           
+            >
+              Service
+            </li>
           </motion.ul>
 
           <div
@@ -130,7 +131,9 @@ const Header = () => {
             )}
           </div>
 
-          <div className="relative"> {console.log(user)}
+          <div className="relative">
+            {" "}
+            {console.log(user)}
             <img
               whiletap={{ scale: 0.6 }}
               src={user ? user.photoURL : Avatar}
@@ -147,20 +150,20 @@ const Header = () => {
                 className="w-40 bg-gray-50 shadow-xl rounded-lg flex flex-col absolute
           top-12 right-0 px-4 py-2"
               >
-                <RoleComponent role = "admin">
-                {user && user.email&& (
-                  <Link to={"/createItem"}>
-                    <p
-                      className="px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100
+                <RoleComponent role="admin">
+                  {user && user.email && (
+                    <Link to={"/createItem"}>
+                      <p
+                        className="px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100
               transition-all duration-100 ease-in-out text-base"
-                      onClick={() => setIsMenu(false)}
-                    >
-                      New Item <MdAdd />
-                    </p>
-                  </Link>
-                )}
+                        onClick={() => setIsMenu(false)}
+                      >
+                        New Item <MdAdd />
+                      </p>
+                    </Link>
+                  )}
                 </RoleComponent>
-                
+
                 <p
                   className="px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100
               transition-all duration-100 ease-in-out text-base"
@@ -211,19 +214,18 @@ const Header = () => {
               className="w-40 bg-gray-50 shadow-xl rounded-lg flex flex-col absolute
           top-12 right-0 px-4 py-2"
             >
-              <RoleComponent role = "admin">
-              {user && user.email && (
-                <Link to={"/createItem"}>
-                  <p
-                    className="px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100
+              <RoleComponent role="admin">
+                {user && user.email && (
+                  <Link to={"/createItem"}>
+                    <p
+                      className="px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100
               transition-all duration-100 ease-in-out text-base"
-                  >
-                    New Item <MdAdd />
-                  </p>
-                </Link>
-              )}
+                    >
+                      New Item <MdAdd />
+                    </p>
+                  </Link>
+                )}
               </RoleComponent>
-             
 
               <ul className="flex flex-col px-4 py-2">
                 <li

@@ -63,7 +63,7 @@ export const categories = [
     {
         id: 6,
         name: "Icreams",
-        urlParamName: "Icream",
+        urlParamName: "Icreams",
     },
 
     {
