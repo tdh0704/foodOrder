@@ -16,7 +16,6 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { storage } from "../firebase.config";
-import { onSnapshot } from "firebase/firestore";
 import { saveItem } from "../untils/firebaseFunctions";
 import { getAllFoodItems} from "../untils/firebaseFunctions";
 import { actionType } from "../context/reducer";
@@ -33,7 +32,7 @@ const CreateContainer = () => {
   const [msg, setMsg] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const [{foodItems}, dispatch] = useStateValue();
+  const [, dispatch] = useStateValue();
 
   const uploadImage = (e) => {
     setIsLoading(true);
@@ -44,8 +43,8 @@ const CreateContainer = () => {
     uploadTask.on(
       "state_changed",
       (snapshot) => {
-        const uploadProgress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        // const uploadProgress =
+        //   (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
       },
       (erro) => {
         console.log(erro);
@@ -247,7 +246,7 @@ const CreateContainer = () => {
                   <div className="relative h-full">
                     <img
                       src={imageAsset}
-                      alt="upload image"
+                      alt="upload img"
                       className="w-full h-full object-cover"
                     />
                     <button

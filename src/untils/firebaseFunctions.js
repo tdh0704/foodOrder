@@ -1,6 +1,6 @@
 //saving new item
 
-import { async } from "@firebase/util";
+
 import {
   setDoc,
   doc,
@@ -29,6 +29,13 @@ export const saveOrder = async (data) => {
 export const getAllFoodItems = async () => {
   const items = await getDocs(
     query(collection(firestore, "foodItems"), orderBy("id", "desc"))
+  );
+  return items.docs.map((doc) => doc.data());
+};
+
+export const getInfoOrder = async () => {
+  const items = await getDocs(
+    query(collection(firestore, "orders"), orderBy("id", "desc"))
   );
   return items.docs.map((doc) => doc.data());
 };

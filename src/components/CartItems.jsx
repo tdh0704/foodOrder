@@ -23,12 +23,13 @@ const CartItems = ({ item, setFlag, flag }) => {
       cartItems.map((item) => {
         if (item.id === id) {
           item.qty += 1;
-          setFlag(flag + 1);
+         flag += 1;
         }
+        return setFlag(flag);
       });
       cartDispatch();
     } else {
-      if (qty == 1) {
+      if (qty === 1) {
         setItems(cartItems.filter((item) => item.id !== id));
         cartDispatch();
       } else {
@@ -36,8 +37,9 @@ const CartItems = ({ item, setFlag, flag }) => {
         cartItems.map((item) => {
           if (item.id === id) {
             item.qty -= 1;
-            setFlag(flag+1);
+            flag+=1;
           }
+          return setFlag(flag);
         });
         cartDispatch();
       }
@@ -46,7 +48,7 @@ const CartItems = ({ item, setFlag, flag }) => {
 
   useEffect(() => {
     setItems(cartItems);
-  }, [qty, items]);
+  }, [cartItems]);
   return (
     <div
       className="w-full p-1 px-2 rounded-lg bg-cartItem flex 

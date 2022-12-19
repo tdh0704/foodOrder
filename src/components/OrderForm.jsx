@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { saveOrder } from "../untils/firebaseFunctions";
-import { getAllOrders} from "../untils/firebaseFunctions";
-import { actionType } from "../context/reducer";
-import { useStateValue } from "../context/StateProvider";
 import { motion } from "framer-motion";
 // const [{orders}, dispatch] = useStateValue();
 const OrderForm = () => {
@@ -15,7 +12,7 @@ const OrderForm = () => {
   const [fields, setFields] = useState(false);
   const [alertStatus, setAlertStatus] = useState("danger");
   const [msg, setMsg] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const [click, setClick] = useState();
  
 
@@ -29,7 +26,7 @@ const OrderForm = () => {
         setClick(false);
         setTimeout(() => {
           setFields(false);
-          setIsLoading(false);
+          // setIsLoading(false);
         }, 4000);
       }else {
         setClick(true);
@@ -40,7 +37,7 @@ const OrderForm = () => {
           number: number
         };
         saveOrder(data);
-        setIsLoading(false);
+        // setIsLoading(false);
         setFields(true);
         setMsg("Đặt hàng thành công");
         setAlertStatus("success");
@@ -57,7 +54,7 @@ const OrderForm = () => {
       setAlertStatus("danger");
       setTimeout(() => {
         setFields(false);
-        setIsLoading(false);
+        // setIsLoading(false);
       }, 4000);
     }
     // fetchData();

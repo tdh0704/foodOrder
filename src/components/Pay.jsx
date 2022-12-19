@@ -1,8 +1,13 @@
 import React, { useState } from 'react'
 import QrPay from "../img/QrPay.jpeg";
 
+import { getInfoOrder } from '../untils/firebaseFunctions';
+
 
 const Pay = () => {
+    getInfoOrder().then(data => data)
+        .then(item => (console.log(item)))
+        
     const [active, setActive] = useState(false);
     const cartSt = localStorage?.getItem('cartItems');
 

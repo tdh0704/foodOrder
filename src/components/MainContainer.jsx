@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 import HomeContainer from "./HomeContainer";
 import { motion } from "framer-motion";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
@@ -7,15 +7,15 @@ import { useStateValue } from "../context/StateProvider";
 import MenuContainer from "./MenuContainer";
 
 const MainContainer = () => {
-  const [{ foodItems, cartShow }, dispatch] = useStateValue();
+  const [{ foodItems, cartShow }, ] = useStateValue();
 
   const [scrollValue, setScrollValue] = useState(0);
   useEffect(() => {
 
-  }, {scrollValue, cartShow});
-  const scroll = (scrollOffset) => {
-    setScrollValue();
-  }
+  },);
+  // const scroll = (scrollOffset) => {
+  //   setScrollValue();
+  // }
 
   return (
     <div className="w-full h-auto flex flex-col items-center justify-center">

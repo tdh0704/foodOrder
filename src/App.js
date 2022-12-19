@@ -7,9 +7,10 @@ import { getAllFoodItems } from "./untils/firebaseFunctions";
 import { actionType } from "./context/reducer";
 import OrderForm from "./components/OrderForm";
 import Pay from "./components/Pay";
+import OrderList from "./components/OrderList";
 
 const App = () => {
-  const [{foodItems}, dispatch] = useStateValue();
+  const [, dispatch] = useStateValue();
 
   const fetchData = async () => {
     await getAllFoodItems().then((data)=> {
@@ -24,7 +25,7 @@ const App = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  },);//[] loi
   return (
     <AnimatePresence exitBeforeEnter>
       <div className="w-screen h-auto flex flex-col bg-primary">
@@ -38,6 +39,7 @@ const App = () => {
             <Route path="/menu" element = {<MenuContainer/>}/>
             <Route path="/order" element = {<OrderForm/>}/>
             <Route path="/pay" element = {<Pay/>}/>
+            <Route path="/quanlydonhang" element = {<OrderList/>}/>
             </Routes>
         </main>
        

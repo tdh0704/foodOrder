@@ -26,7 +26,7 @@ const CartContainer = () => {
       return accumulator + item.qty * item.price;
     }, 0);
     setTot(totalPrice);
-  }, [tot, flag]);
+  }, [cartItems]);
   const clearCart = () => {
     dispatch({
       type: actionType.SET_CARTITEMS,
@@ -40,7 +40,7 @@ const CartContainer = () => {
   const login = async () => {
     if (!user) {
       const {
-        user: { refreshToken, providerData },
+        user: { providerData },
       } = await signInWithPopup(firebaseAuth, provider);
       dispatch({
         type: actionType.SET_USER,

@@ -35,7 +35,7 @@ const Header = () => {
       const res = await signInWithPopup(firebaseAuth, provider);
 
       const {
-        user: { refreshToken, providerData, reloadUserInfo },
+        user: {  providerData, reloadUserInfo },
       } = res;
       const extraUserInfo = await getExtraUserInfo(reloadUserInfo.localId);
       const userData = { ...providerData[0], extraUserInfo };
@@ -161,6 +161,28 @@ const Header = () => {
                         New Item <MdAdd />
                       </p>
                     </Link>
+
+                    // 
+                    
+
+                  )}
+                </RoleComponent>
+
+                <RoleComponent role="admin">
+                  {user && user.email && (
+                    <Link to={"/quanlydonhang"}>
+                      <p
+                        className="px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100
+              transition-all duration-100 ease-in-out text-base"
+                        onClick={() => setIsMenu(false)}
+                      >
+                        Quản lý ĐH <MdAdd />
+                      </p>
+                    </Link>
+
+                    // 
+                    
+
                   )}
                 </RoleComponent>
 

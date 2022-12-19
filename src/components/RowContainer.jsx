@@ -34,7 +34,7 @@ const RowContainer = ({ flag, data, scrollValue }) => {
   useEffect(() => {
     
     addtoCart();
-  }, [items]);
+  });
 
   return (
     <div
