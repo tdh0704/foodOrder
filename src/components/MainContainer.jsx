@@ -10,9 +10,9 @@ const MainContainer = () => {
   const [{ foodItems, cartShow }, ] = useStateValue();
 
   const [scrollValue, setScrollValue] = useState(0);
-  useEffect(() => {
+  // useEffect(() => {
 
-  },);
+  // },);
   // const scroll = (scrollOffset) => {
   //   setScrollValue();
   // }

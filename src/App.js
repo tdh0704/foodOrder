@@ -12,20 +12,16 @@ import OrderList from "./components/OrderList";
 const App = () => {
   const [, dispatch] = useStateValue();
 
-  const fetchData = async () => {
-    await getAllFoodItems().then((data)=> {
+
+  useEffect(() => {
+     getAllFoodItems().then((data)=> {
      
       dispatch({
         type: actionType.SET_FOOD_ITEMS,
         foodItems : data
       });
     });
-  };
-
-
-  useEffect(() => {
-    fetchData();
-  },);//[] loi
+  },[dispatch]);
   return (
     <AnimatePresence exitBeforeEnter>
       <div className="w-screen h-auto flex flex-col bg-primary">

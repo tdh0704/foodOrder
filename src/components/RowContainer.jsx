@@ -15,15 +15,7 @@ const RowContainer = ({ flag, data, scrollValue }) => {
 
   const [{ cartItems }, dispatch] = useStateValue();
 
-  const addtoCart = () => {
-    
-    dispatch({
-      type: actionType.SET_CARTITEMS,
-      cartItems: items,
-    });
 
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
-  };
 
   useEffect(() => {
     rowContainer.current.scrollLeft += scrollValue;
@@ -32,9 +24,13 @@ const RowContainer = ({ flag, data, scrollValue }) => {
 
 
   useEffect(() => {
-    
-    addtoCart();
-  });
+    dispatch({
+      type: actionType.SET_CARTITEMS,
+      cartItems: items,
+    },);
+
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  }, [dispatch, cartItems, items]);
 
   return (
     <div
